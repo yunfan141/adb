@@ -8,10 +8,10 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>ADBM Terrorism Report - MongoDB</title>
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-  <link href="css/sb-admin.css" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <link href="/css/sb-admin.css" rel="stylesheet">
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -31,13 +31,13 @@
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link" href="http://localhost:8888/test3.php">
+          <a class="nav-link" href="MySQL.html">
             <i class="fa fa-fw fa-area-chart"></i>
             <span class="nav-link-text">MySQL</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="MongoDB.html">
+          <a class="nav-link" href="http://localhost:3000/">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">MongoDB</span>
           </a>
@@ -63,34 +63,431 @@
       </ol>
 
       <!-- Example DataTables Card-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-table"></i> Overview of MongoDB</div>
-        <div class="card-body">
-          Neo4j is a graphical database that was originally released in February 2010. There are three editions: Community, Enterprise, and Government.
-          The data stored within the database is either a node, edge, or attribute. Nodes and edges can have attributes and labels.
-        </div>
-        
+      <div class="card mb-3">    
           <div class="card-header">
           <i class="fa fa-table"></i> Queries</div>
-        <div class="card-body">
-        	<p><a href = "mongoDBqueries/query1.html">Find the number of perpetrators captured in a specific year</a></p>
-        	<p><a href = "mongoDBqueries/query2.html">Find the number of attacks for a specific country</a></p>
-        	<p><a href = "mongoDBqueries/query3.html">Find how much ransom was paid by a specific country</a></p>
-        	<p><a href = "mongoDBqueries/query4.html">Find how much ransom was demanded of a specific country</a></p>
-        	<p><a href = "mongoDBqueries/query5.html">Find the number of people were injured during successful attacks for a certain attack type</a></p>
-        	<p><a href = "mongoDBqueries/query6.html">Count the number of suicides committed by perpetrators based on their country</a></p>
-        	<p><a href = "mongoDBqueries/query7.html">Count the number of perpetrators captured based on their motives</a></p>
-        	<p><a href = "mongoDBqueries/query8.html">Count the number of terrorist attacks based on type</a></p>
-        	<p><a href = "mongoDBqueries/query9.html">Count the number of terrorist attacks based on weapon</a></p>
-        	<p><a href = "mongoDBqueries/query10.html">Count the number of attacks on the United States based on terrorist group</a></p>
-        	<p><a href = "mongoDBqueries/query11.html">List the weapons used in terrorist attacks in each country</a></p>
-        	<p><a href = "mongoDBqueries/query12.html">Count the number of terrorist attacks based on nationalities targeted</a></p>
+
+        <!--This is query1 seperate line **********************************************************-->
+        <div id="accordion">
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-light" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    1. Find the number of perpetrators captured in a specific year
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <form method="POST" action="/query1" class="query1">
+                      <div class="input-group mb-3">
+                      <select class="custom-select" name="yearpicker">
+                          <option selected>Choose the year you would like to see (No data for 1993)</option>
+                          <% for(var i=0; i<year.length; i++) {%>
+                              <option value=<%= year[i]._id %>><%= year[i]._id %></option>
+                              <% } %>
+                      </select>                      
+                      <div class="input-group-prepend">
+                          <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                        </div> 
+                      </div>
+                      <% for(var i=0; i<query1.length; i++) {%>
+                      <p>The number of perpetrators captured in <%= query1[i]._id %> year is <%= query1[i].total_num %>.</p>
+                      <% } %>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--This is query2 seperate line **********************************************************-->
+          <div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-light" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                      2. Find the number of attacks for a specific country
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                  <div class="card-body">
+                      <form method="POST" action="/query2" class="query2">
+                        <div class="input-group mb-3">
+                        <select class="custom-select" name="countrypicker">
+                            <option selected>Choose the country you would like to see</option>
+                            <% for(var i=0; i<country.length; i++) {%>
+                                <option value=<%= country[i]._id %>><%= country[i]._id %></option>
+                                <% } %>
+                        </select>                      
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                          </div> 
+                        </div>
+                        <% for(var i=0; i<query2.length; i++) {%>
+                        <p>The number of attacks happened in <%= query2[i]._id %> is <%= query2[i].num_terrorist_attacks %>.</p>
+                        <% } %>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!--This is query3 seperate line **********************************************************-->
+          <div id="accordion">
+            <div class="card">
+              <!--change id number-->
+              <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                  <button class="btn btn-light" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    3. Find how much ransom was paid by a specific country
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                  <!--change query number-->
+                    <form method="POST" action="/query3" class="query3">
+                      <div class="input-group mb-3">
+                      <select class="custom-select" name="countrypicker">
+                          <option selected>Choose the country you would like to see</option>
+                          <% for(var i=0; i<country.length; i++) {%>
+                              <option value=<%= country[i]._id %>><%= country[i]._id %></option>
+                              <% } %>
+                      </select>                      
+                      <div class="input-group-prepend">
+                          <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                        </div> 
+                      </div>
+                      <% for(var i=0; i<query3.length; i++) {%>
+                      <p>The amount of ransom paid in <%= query3[i]._id %> is <%= query3[i].num_ransom_paid %>.</p>
+                      <% } %>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--This is query4 seperate line **********************************************************-->
+          <div id="accordion">
+              <div class="card">
+                <!--change id number-->
+                <div class="card-header" id="headingFour">
+                  <h5 class="mb-0">
+                    <button class="btn btn-light" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                      4. Find how much ransom was demanded of a specific country
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
+                  <div class="card-body">
+                    <!--change query number-->
+                      <form method="POST" action="/query4" class="query4">
+                        <div class="input-group mb-3">
+                        <select class="custom-select" name="countrypicker">
+                            <option selected>Choose the country you would like to see</option>
+                            <% for(var i=0; i<country.length; i++) {%>
+                                <option value=<%= country[i]._id %>><%= country[i]._id %></option>
+                                <% } %>
+                        </select>                      
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                          </div> 
+                        </div>
+                        <% for(var i=0; i<query4.length; i++) {%>
+                        <p>The amount of ransom demanded in <%= query4[i]._id %> is <%= query4[i].num_ransom_demanded %>.</p>
+                        <% } %>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!--This is query5 seperate line **********************************************************-->
+          <div id="accordion">
+              <div class="card">
+                <!--change id number-->
+                <div class="card-header" id="headingFive">
+                  <h5 class="mb-0">
+                    <button class="btn btn-light" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                      5. Find the number of people were injured during successful attacks for a certain attack type
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="collapseFive" class="collapse show" aria-labelledby="headingFive" data-parent="#accordion">
+                  <div class="card-body">
+                    <!--change query number-->
+                      <form method="POST" action="/query5" class="query5">
+                        <div class="input-group mb-3">
+                        <select class="custom-select" name="attackpicker">
+                            <option selected>Choose the attack type you would like to see</option>
+                            <% for(var i=0; i<attack.length; i++) {%>
+                                <option value=<%= attack[i]._id %>><%= attack[i]._id %></option>
+                                <% } %>
+                        </select>                      
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                          </div> 
+                        </div>
+                        <% for(var i=0; i<query5.length; i++) {%>
+                        <p>The number of people were injured during successful attacks for <%= query5[i]._id %> is <%= query5[i].num_wound %>.</p>
+                        <% } %>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!--This is query6 seperate line **********************************************************-->
+          <div id="accordion">
+              <div class="card">
+                <!--change id number-->
+                <div class="card-header" id="headingSix">
+                  <h5 class="mb-0">
+                    <button class="btn btn-light" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+                      6. Count the number of suicides committed by perpetrators based on their country
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="collapseSix" class="collapse show" aria-labelledby="headingSix" data-parent="#accordion">
+                  <div class="card-body">
+                    <!--change query number-->
+                      <form method="POST" action="/query6" class="query6">
+                        <div class="input-group mb-3">
+                        <select class="custom-select" name="countrypicker">
+                            <option selected>Choose the country you would like to see</option>
+                            <% for(var i=0; i<country.length; i++) {%>
+                                <option value=<%= country[i]._id %>><%= country[i]._id %></option>
+                                <% } %>
+                        </select>                      
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                          </div> 
+                        </div>
+                        <% for(var i=0; i<query6.length; i++) {%>
+                        <p>The number of suicides committed by perpetrators based on <%= query6[i]._id %> is <%= query6[i].num_suicide_attack %>.</p>
+                        <% } %>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!--This is query7 seperate line **********************************************************-->
+          <div id="accordion">
+              <div class="card">
+                <!--change id number-->
+                <div class="card-header" id="headingSeven">
+                  <h5 class="mb-0">
+                    <button class="btn btn-light" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
+                      7. Count the number of perpetrators captured based on their motives
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="collapseSeven" class="collapse show" aria-labelledby="headingSeven" data-parent="#accordion">
+                  <div class="card-body">
+                    <!--change query number-->
+                      <form method="POST" action="/query7" class="query7">
+                        <div class="input-group mb-3">
+                        <select class="custom-select" name="motivepicker">
+                            <option selected>Show 10 motive with its number of perpetrators captured randomly</option>
+                            <!-- <% for(var i=0; i<motive.length; i++) {%>
+                                <option value=<%= motive[i]._id %>><%= motive[i]._id %></option>
+                                <% } %> -->
+                        </select>                      
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                          </div> 
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                              <thead>
+                                <tr>
+                                  <th>Motive</th>
+                                  <th>Number</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                  
+                                      <% for(var i=0; i<query7.length; i++) {%>
+                                        <tr class="query7">
+                                     <td class="query7">
+                                       <%= query7[i]._id %>
+                                     </td>
+                                     <td class="query7">
+                                        <%= query7[i].num_perpetrators_captured%>
+                                      </td>
+                                    </tr>
+                                       <% } %>
+                                    
+                              </tbody>
+                            </table>
+                          </div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!--This is query8 seperate line **********************************************************-->
+          <div id="accordion">
+            <div class="card">
+              <!--change id number-->
+              <div class="card-header" id="headingEight">
+                <h5 class="mb-0">
+                  <button class="btn btn-light" data-toggle="collapse" data-target="#collapseEight" aria-expanded="true" aria-controls="collapseSix">
+                    8. Count the number of terrorist attacks based on type
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="collapseEight" class="collapse show" aria-labelledby="headingEight" data-parent="#accordion">
+                <div class="card-body">
+                  <!--change query number-->
+                    <form method="POST" action="/query8" class="query8">
+                      <div class="input-group mb-3">
+                      <select class="custom-select" name="typepicker">
+                          <option selected>Choose the attack type you would like to see</option>
+                          <% for(var i=0; i<attack.length; i++) {%>
+                              <option value=<%= attack[i]._id %>><%= attack[i]._id %></option>
+                              <% } %>
+                      </select>                      
+                      <div class="input-group-prepend">
+                          <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                        </div> 
+                      </div>
+                      <% for(var i=0; i<query8.length; i++) {%>
+                      <p>The  number of terrorist attacks based on <%= query8[i]._id %> is <%= query8[i].num_attack %>.</p>
+                      <% } %>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+         <!--This is query9 seperate line **********************************************************-->
+         <div id="accordion">
+          <div class="card">
+            <!--change id number-->
+            <div class="card-header" id="headingNine">
+              <h5 class="mb-0">
+                <button class="btn btn-light" data-toggle="collapse" data-target="#collapseNine" aria-expanded="true" aria-controls="collapseSix">
+                  9. Count the number of terrorist attacks based on weapon
+                </button>
+              </h5>
+            </div>
+        
+            <div id="collapseNine" class="collapse show" aria-labelledby="headingNine" data-parent="#accordion">
+              <div class="card-body">
+                <!--change query number-->
+                  <form method="POST" action="/query9" class="query9">
+                    <div class="input-group mb-3">
+                    <select class="custom-select" name="wtypepicker">
+                        <option selected>Choose the attack type you would like to see</option>
+                        <% for(var i=0; i<weapon.length; i++) {%>
+                            <option value=<%= weapon[i]._id %>><%= weapon[i]._id %></option>
+                            <% } %>
+                    </select>                      
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                      </div> 
+                    </div>
+                    <% for(var i=0; i<query9.length; i++) {%>
+                    <p>The  the number of terrorist attacks based on <%= query9[i]._id %> is <%= query9[i].num_attack %>.</p>
+                    <% } %>
+                  </form>
+              </div>
+            </div>
+          </div>
         </div>
+
+         <!--This is query10 seperate line **********************************************************-->
+         <div id="accordion">
+          <div class="card">
+            <!--change id number-->
+            <div class="card-header" id="headingTen">
+              <h5 class="mb-0">
+                <button class="btn btn-light" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseSix">
+                  10. Count the number of terrorist attacks based on nationalities targeted
+                </button>
+              </h5>
+            </div>
+        
+            <div id="collapseTen" class="collapse show" aria-labelledby="headingTen" data-parent="#accordion">
+              <div class="card-body">
+                <!--change query number-->
+                  <form method="POST" action="/query10" class="query10">
+                    <div class="input-group mb-3">
+                    <select class="custom-select" name="nationpicker">
+                        <option selected>Choose the attack type you would like to see</option>
+                        <% for(var i=0; i<nation.length; i++) {%>
+                            <option value=<%= nation[i]._id %>><%= nation[i]._id %></option>
+                            <% } %>
+                    </select>                      
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                      </div> 
+                    </div>
+                    <% for(var i=0; i<query10.length; i++) {%>
+                    <p>The  the number of terrorist attacks based on <%= query10[i]._id %> is <%= query10[i].num_terrorist_attacks %>.</p>
+                    <% } %>
+                  </form>
+              </div>
+            </div>
+          </div>
         </div>
+
+         <!--This is query11 seperate line **********************************************************-->
+         <div id="accordion">
+          <div class="card">
+            <!--change id number-->
+            <div class="card-header" id="headingEleven">
+              <h5 class="mb-0">
+                <button class="btn btn-light" data-toggle="collapse" data-target="#collapseEleven" aria-expanded="true" aria-controls="collapseEleven">
+                  11. List the weapons used in terrorist attacks based on country
+                </button>
+              </h5>
+            </div>
+        
+            <div id="collapseEleven" class="collapse show" aria-labelledby="headingEleven" data-parent="#accordion">
+              <div class="card-body">
+                <!--change query number-->
+                  <form method="POST" action="/query11" class="query11">
+                    <div class="input-group mb-3">
+                    <select class="custom-select" name="countrypicker">
+                        <option selected>Choose the country you would like to see</option>
+                        <% for(var i=0; i<country.length; i++) {%>
+                            <option value=<%= country[i]._id %>><%= country[i]._id %></option>
+                            <% } %>
+                    </select>                      
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                      </div> 
+                    </div>
+                    <p> the weapontypes in country <%= query11[0]._id.country %> used are: </p>
+                    <% for(var i=0; i<query11.length; i++) {%>
+                    <p> <%= query11[i]._id.weapontype %></p>
+                    <% } %>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </div>      
       </div>
     </div>
-       
+  </div>
+    
+    
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
@@ -106,6 +503,7 @@
     </a>
     <!-- Logout Modal-->
 
+    </script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
