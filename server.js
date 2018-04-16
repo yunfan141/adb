@@ -3,7 +3,7 @@ const bodyParser= require('body-parser')
 const assert = require('assert');
 const app = express()
 const url = 'mongodb://localhost:27017';
-const dbName = 'users';
+const dbName = 'adbm';
 
 const MongoClient = require('mongodb').MongoClient
 
@@ -21,6 +21,7 @@ let motive = [];
 let attack = [];
 let weapon = [];
 let nation = [];
+let query0 = [];
 let query1 = [];
 let query2 = [];
 let query3 = [];
@@ -32,6 +33,8 @@ let query8 = [];
 let query9 = [];
 let query10 = [];
 let query11 = [];
+let query01 = [];
+let over = [];
 
 MongoClient.connect(url, function(err, client) {
     assert.equal(null, err);
@@ -78,7 +81,6 @@ MongoClient.connect(url, function(err, client) {
         }]).toArray((err, result) => {
         if (err) return console.log(err)
         attack = result;
-        console.log(attack);
     });
 
     db.collection('Terrorism').aggregate([
@@ -93,7 +95,6 @@ MongoClient.connect(url, function(err, client) {
         }]).toArray((err, result) => {
         if (err) return console.log(err)
         weapon = result;
-        console.log(weapon);
     });
 
     db.collection('Terrorism').aggregate([
@@ -109,8 +110,27 @@ MongoClient.connect(url, function(err, client) {
      ]).toArray((err, result) => {
         if (err) return console.log(err)
         nation = result;
-        console.log(nation);
      });
+
+     db.collection('Terrorism').aggregate([
+      {
+          $group:
+              {
+              _id: "$country_txt",
+              nattack: {$sum : 1}
+              }
+      },
+      {
+          $sort:{ _id : 1}
+      },
+      {
+        $limit : 10
+      }
+    ]).toArray((err, result) => {
+      if (err) return console.log(err)
+      over = result;
+  });
+
     // db.collection('Terrorism').aggregate([
     //     { 
     //         $match: {nperpcap : {$gt: 10} }
@@ -148,9 +168,49 @@ app.get('/', (req, res) => {
      ]).toArray((err, result) => {
         if (err) return console.log(err)
         tabledata = result;
-        res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11})
-        console.log(tabledata);
-        console.log(year[1]);
+        res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11,over})
+      },
+    )
+  })
+
+  app.get('/overview', (req, res) => {
+    db.collection('Terrorism').aggregate([
+        {
+           $group:
+             {
+               _id: "$country_txt",
+               nkill: { $sum: "$nkill" },
+               nattack: { $sum: 1 },
+               nwound: { $sum: "$nwound"},
+               nperpcap: {$sum: "$nperpcap"}
+             }
+        }
+    
+     ]).toArray((err, result) => {
+        if (err) return console.log(err)
+        query0 = result;
+        res.render('overview.ejs', {country,query0,over})
+      },
+    )
+  })
+
+  app.get('/overview2', (req, res) => {
+    db.collection('Terrorism').aggregate([
+        {
+           $group:
+             {
+               _id: "$iyear",
+               nkill: { $sum: "$nkill" },
+               nattack: { $sum: 1 },
+               nwound: { $sum: "$nwound"},
+               nperpcap: {$sum: "$nperpcap"}
+             }
+        }
+    
+     ]).toArray((err, result) => {
+        if (err) return console.log(err)
+        query01 = result;
+        res.render('overview2.ejs', {country,query01})
       },
     )
   })
@@ -176,8 +236,6 @@ app.get('/', (req, res) => {
         if (err) return console.log(err)
         query1 = result;
         res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11})
-        console.log(query1)
-        console.log(yearpicked);
       })
   })
 
@@ -201,8 +259,6 @@ app.get('/', (req, res) => {
       if (err) return console.log(err)
       query2 = result;
       res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11})
-      console.log(query2)
-      console.log(countrypicked);
     })
 })
 
@@ -229,8 +285,6 @@ app.post('/query3', (req, res) => {
       if (err) return console.log(err)
       query3 = result;
       res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11})
-      console.log(query3)
-      console.log(countrypicked);
     })
 })
 
@@ -257,8 +311,6 @@ app.post('/query4', (req, res) => {
       if (err) return console.log(err)
       query4 = result;
       res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11})
-      console.log(query4)
-      console.log(countrypicked);
     })
 })
 
@@ -285,8 +337,6 @@ app.post('/query5', (req, res) => {
       if (err) return console.log(err)
       query5 = result;
       res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11})
-      console.log(query5)
-      console.log(attackpicked);
     })
 })
 
@@ -313,7 +363,6 @@ app.post('/query6', (req, res) => {
       if (err) return console.log(err)
       query6 = result;
       res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11})
-      console.log(query6)
       console.log(countrypicked);
     })
 })
@@ -434,7 +483,7 @@ db.collection('Terrorism').aggregate([
     if (err) return console.log(err)
     query11 = result;
     res.render('mongodb.ejs', {tabledata,year,attack,country,motive,weapon,nation,query1,query2,query3,query4,query5,query6,query7,query8,query9,query10,query11})
-    console.log(query11)
+    console.log(query11[0].weapontype)
     console.log(countrypicked);
   })
 })

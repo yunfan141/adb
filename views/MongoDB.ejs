@@ -56,10 +56,11 @@
     
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="index.html">Database</a>
-        </li>
-        <li class="breadcrumb-item active">MongoDB</li>
+          <li class="breadcrumb-item active">
+              <a href="http://localhost:3000">Querys</a>
+            </li>
+            <li class="breadcrumb-item "><a href="http://localhost:3000/overview">overview</a></li>
+            <li class="breadcrumb-item "><a href="http://localhost:3000/overview2">overview2</a></li>
       </ol>
 
       <!-- Example DataTables Card-->
@@ -472,7 +473,6 @@
                         <button class="btn btn-outline-secondary" type="submit">Submit</button>
                       </div> 
                     </div>
-                    <p> the weapontypes in country <%= query11[0]._id.country %> used are: </p>
                     <% for(var i=0; i<query11.length; i++) {%>
                     <p> <%= query11[i]._id.weapontype %></p>
                     <% } %>
