@@ -153,9 +153,6 @@ MongoClient.connect(url, function(err, client) {
 // for the table displayed
 app.get('/', (req, res) => {
     db.collection('Terrorism').aggregate([
-        { 
-            $match: {nperpcap : {$gt: 0} }
-        },
         {
            $group:
              {
@@ -220,9 +217,6 @@ app.get('/', (req, res) => {
       let yearpicked = parseInt(req.body.yearpicker);
 
     db.collection('Terrorism').aggregate([
-        { 
-            $match: {nperpcap : {$gt: 0} }
-        },
         {
            $group:
              {
@@ -267,9 +261,6 @@ app.post('/query3', (req, res) => {
     let countrypicked = req.body.countrypicker;
 
   db.collection('Terrorism').aggregate([
-    { 
-		$match: {ransompaid : {$gt: -1} }
-	},
 	{
        $group:
          {
@@ -293,9 +284,6 @@ app.post('/query4', (req, res) => {
     let countrypicked = req.body.countrypicker;
 
   db.collection('Terrorism').aggregate([
-    { 
-		$match: {ransomamt : {$gt: -1} }
-	},
 	{
        $group:
          {
@@ -320,7 +308,7 @@ app.post('/query5', (req, res) => {
 
   db.collection('Terrorism').aggregate([
     { 
-      $match: {success : "Yes"}
+      $match: {success : 1}
   },
   {
      $group:
@@ -346,7 +334,7 @@ app.post('/query6', (req, res) => {
 
   db.collection('Terrorism').aggregate([
     {
-       $match: {suicide : "Yes"}
+       $match: {suicide : 1}
     },
 	{
        $group:
@@ -372,9 +360,6 @@ app.post('/query7', (req, res) => {
     let motivepicked = req.body.motivepicker;
 
   db.collection('Terrorism').aggregate([
-    { 
-        $match: {nperpcap : {$gt: 10} }
-    },
     {
        $group:
          {
@@ -382,9 +367,6 @@ app.post('/query7', (req, res) => {
            num_perpetrators_captured: { $sum: "$nperpcap" }
          }
     },
-    {
-        $limit: 10
-    }
 
  ]).toArray((err, result) => {
       if (err) return console.log(err)
@@ -408,7 +390,10 @@ app.post('/query8', (req, res) => {
     },
     { 
 		$match: { _id: typepicked }
-	}
+  },
+  {
+    limit: 10
+  }
 
  ]).toArray((err, result) => {
       if (err) return console.log(err)
