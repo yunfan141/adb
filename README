@@ -1,6 +1,8 @@
-1 import data into mongodb 
+1 first install nodejs and mongodb in your computer ( https://nodejs.org/en/)
+
+2 import data into mongodb 
 mongoimport --db adbm --collection Terrorism --type csv --headerline --file /Users/yimeng/Desktop/cleaneddata.csv
 
-2 clone the project then run "npm install"
+3 clone the project then run "npm install"
 
-3 run project "node server"
+4 run project "node server"
